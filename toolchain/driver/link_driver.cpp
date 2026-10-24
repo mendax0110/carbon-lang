@@ -162,9 +162,8 @@ auto LinkDriver::Link(DriverEnv& driver_env) -> DriverResult {
                     options_->extra_clang_args.end());
   clang_args.push_back("--");
 
-  // Append the Carbon prelude object files to the link.
-  // TODO: should also be able to link in the rest of the Core object files,
-  // if needed.
+  // Append the Carbon prelude and Core library object files to the link.
+  // These are all found by walking the built `core` runtimes directory.
   llvm::SmallVector<std::string> prelude_paths;
   if (include_prelude) {
     // Open subdirectory specifically for the object files relative to the
