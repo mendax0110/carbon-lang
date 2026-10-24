@@ -78,9 +78,9 @@ auto CarbonPreludeBuilder::Build() && -> ErrorOr<std::filesystem::path> {
     // replace the `.carbon` extension with a `.o`, so we can re-parent
     // this file and any subdirectories into the output path.
     auto relative_output_path =
-        lib_path_ / std::filesystem::path(
-                        input_filename.substr(install_root_length).str())
-                        .replace_extension(".o");
+        lib_path_ /
+        std::filesystem::path(input_filename.substr(install_root_length).str())
+            .replace_extension(".o");
 
     // The output path may contain subdirectories that haven't yet been
     // created, so create if necessary.
@@ -96,11 +96,10 @@ auto CarbonPreludeBuilder::Build() && -> ErrorOr<std::filesystem::path> {
 
     auto absolute_output_path =
         runtimes_builder_->path() / relative_output_path;
-    CARBON_CHECK(
-        mkdir_result.ok(),
-        "Failed to make output subdirectory {0} while building Carbon "
-        "prelude.",
-        absolute_output_path.parent_path());
+    CARBON_CHECK(mkdir_result.ok(),
+                 "Failed to make output subdirectory {0} while building Carbon "
+                 "prelude.",
+                 absolute_output_path.parent_path());
     return absolute_output_path.string();
   };
 
@@ -120,8 +119,7 @@ auto CarbonPreludeBuilder::Build() && -> ErrorOr<std::filesystem::path> {
   if (!core_manifest.ok()) {
     return std::move(core_manifest).error();
   }
-  llvm::SmallVector<std::string> core_library_files =
-      *std::move(core_manifest);
+  llvm::SmallVector<std::string> core_library_files = *std::move(core_manifest);
 
   if (!core_library_files.empty()) {
     CompileOptions core_options(compile_options_.codegen_options);
